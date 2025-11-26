@@ -1,0 +1,23 @@
+export const colors = {
+  white: '#FFFFFF',
+  primary: '#007AFF',
+  secondary: '#5856D6',
+  success: '#34C759',
+  scan: '#00FF00',
+  error: '#FF3B30',
+  warning: '#FF9500',
+  info: '#5856D6',
+  background: '#FFFFFF',
+  text: '#000000',
+  textSecondary: '#8E8E93',
+  border: '#C6C6C8',
+  divider: '#E5E5EA',
+  placeholder: '#C7C7CC',
+  transparent: 'transparent',
+  darkBackground: '#1C1C1E',
+  // Button colors for dark theme
+  primaryButton: '#0A84FF',
+  secondaryButton: '#30D158',
+  cardBackground: 'rgba(255, 255, 255, 0.05)',
+  cardBorder: 'rgba(255, 255, 255, 0.1)',
+};

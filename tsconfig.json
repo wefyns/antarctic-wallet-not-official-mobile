@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["ESNext"],
+    "jsx": "react-native",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "baseUrl": "src",
+    "paths": {
+      "api/*": ["api/*"],
+      "utils/*": ["utils/*"],
+      "hooks/*": ["hooks/*"],
+      "common/*": ["common/*"],
+      "screens/*": ["screens/*"],
+      "services/*": ["services/*"],
+      "constants/*": ["constants/*"],
+      "components/*": ["components/*"],
+      "navigation/*": ["navigation/*"]
+    },
+    "types": ["react", "react-native"]
+  },
+  "include": ["src", "App.tsx", "index.ts", "index.js"],
+  "exclude": ["node_modules"]
+}
