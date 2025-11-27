@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  Modal,
-  StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, Modal, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { colors } from 'constants/colors';
 import { usePrepareSBPPayment } from 'hooks/usePrepareSBPPayment';
 import { useCreateSBPPayment } from 'hooks/useCreateSBPPayment';
@@ -21,18 +14,10 @@ type PaymentModalProps = {
   onClose: () => void;
 };
 
-export const PaymentModal: React.FC<PaymentModalProps> = ({
-  visible,
-  qrUrl,
-  coin,
-  onClose,
-}) => {
+export const PaymentModal: React.FC<PaymentModalProps> = ({ visible, qrUrl, coin, onClose }) => {
   const [txId, setTxId] = useState<string | null>(null);
-  
-  const { data, isLoading, isError, error } = usePrepareSBPPayment(
-    { coin, qr_url: qrUrl },
-    visible && !txId
-  );
+
+  const { data, isLoading, isError, error } = usePrepareSBPPayment({ coin, qr_url: qrUrl }, visible && !txId);
 
   const createPayment = useCreateSBPPayment();
   const { data: txStatus, isLoading: txLoading } = useTransactionStatus(txId, !!txId);
@@ -70,16 +55,11 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   // Show transaction status if payment was created
   if (txId && txStatus) {
     return (
-      <Modal
-        visible={visible}
-        transparent
-        animationType="slide"
-        onRequestClose={handleClose}
-      >
+      <Modal visible={visible} transparent animationType="slide" onRequestClose={handleClose}>
         <View style={styles.overlay}>
           <View style={styles.modalContainer}>
             <View style={styles.dragHandle} />
-            
+
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Статус платежа</Text>
               <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
@@ -93,6 +73,12 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                   <>
                     <ActivityIndicator size="large" color={colors.primaryButton} />
                     <Text style={styles.statusText}>Ожидание подтверждения...</Text>
+                  </>
+                )}
+                {txStatus.status === 'processing' && (
+                  <>
+                    <ActivityIndicator size="large" color={colors.primaryButton} />
+                    <Text style={styles.statusText}>Обрабатываем платеж...</Text>
                   </>
                 )}
                 {txStatus.status === 'completed' && (
@@ -131,11 +117,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
 
               {txStatus.status === 'completed' && (
                 <View style={styles.buttonContainer}>
-                  <CustomButton 
-                    title="Закрыть" 
-                    onPress={handleClose}
-                    size="lg"
-                  />
+                  <CustomButton title="Закрыть" onPress={handleClose} size="lg" />
                 </View>
               )}
             </View>
@@ -146,16 +128,11 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   }
 
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="slide"
-      onRequestClose={onClose}
-    >
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <View style={styles.overlay}>
         <View style={styles.modalContainer}>
           <View style={styles.dragHandle} />
-          
+
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Детали платежа</Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
@@ -172,9 +149,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
 
           {isError && (
             <View style={styles.errorContainer}>
-              <Text style={styles.errorText}>
-                {(error as any)?.message || 'Ошибка загрузки данных'}
-              </Text>
+              <Text style={styles.errorText}>{(error as any)?.message || 'Ошибка загрузки данных'}</Text>
               <TouchableOpacity onPress={onClose} style={styles.retryButton}>
                 <Text style={styles.retryButtonText}>Закрыть</Text>
               </TouchableOpacity>
@@ -200,24 +175,15 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
 
               <View style={styles.infoRow}>
                 <Text style={styles.label}>Действительно</Text>
-                <Text style={styles.value}>
-                  {formatTime(data.validTime)}
-                </Text>
+                <Text style={styles.value}>{formatTime(data.validTime)}</Text>
               </View>
 
               <View style={styles.footer}>
-                <Text style={styles.updateText}>
-                  Обновляется каждые 10 секунд
-                </Text>
+                <Text style={styles.updateText}>Обновляется каждые 10 секунд</Text>
               </View>
 
               <View style={styles.buttonContainer}>
-                <CustomButton 
-                  title="Оплатить" 
-                  onPress={handlePay}
-                  size="lg"
-                  disabled={createPayment.isPending}
-                />
+                <CustomButton title="Оплатить" onPress={handlePay} size="lg" disabled={createPayment.isPending} />
               </View>
             </View>
           )}
